@@ -6,18 +6,18 @@
         xmlns:local="clr-namespace:WpfApp3_joystick"
         mc:Ignorable="d"
         Title="MapDialogBox" Height="720" Width="1280" Loaded="DialogWin_Loaded">
-	<Grid x:Name="DialogGrid" MouseUp="Mouse_Up">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition Width="0*"/>
-		</Grid.ColumnDefinitions>
-		<Image x:Name="Image_FlightMap" HorizontalAlignment="Left" Height="646" VerticalAlignment="Top" Width="1262" Source="Image/RANGER Blank Map.png"/>
-		<Button x:Name="Button_Cancel" Content="Cancel" HorizontalAlignment="Left" Height="43" Margin="806,646,-968,0" VerticalAlignment="Top" Width="162" Click="Button_Click" Background="#FF3C44E0" BorderBrush="#FF0023FF" Grid.Column="1"/>
-		<ComboBox x:Name="ComboBox_Position" Height="40" Margin="1094,0,10,0" VerticalAlignment="Top" SelectionChanged="ComboBox_Position_SelectionChanged" SelectedIndex="1">
-			<RadioButton x:Name="FirstSelection_RB" Content="Renton Aitfield" Height="30" Width="152" FontSize="16" GroupName="FlightPosition" Checked="FirstSelection_RB_Checked"/>
-			<RadioButton x:Name="SecondSelection_RB" Content="Naval Air Station" Height="30" Width="152" FontSize="16" GroupName="FlightPosition" Checked="SecondSelection_RB_Checked"/>
-			<RadioButton x:Name="ThirdSelection_RB" Content="Selective" Height="30" Width="152" FontSize="16" GroupName="FlightPosition" IsChecked="True" Checked="ThirdSelection_RB_Checked"/>
-		</ComboBox>
+    <Grid x:Name="DialogGrid" MouseUp="Mouse_Up">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="Image_FlightMap" HorizontalAlignment="Left" Height="646" VerticalAlignment="Top" Width="1262" Source="Image/RANGER Blank Map.png"/>
+        <Button x:Name="Button_Cancel" Content="Cancel" HorizontalAlignment="Left" Height="43" Margin="1110,636,0,0" VerticalAlignment="Top" Width="162" Click="Button_Click" Background="#FF3C44E0" BorderBrush="#FF0023FF"/>
+        <ComboBox x:Name="ComboBox_Position" Height="40" Margin="1094,0,10,0" VerticalAlignment="Top" SelectionChanged="ComboBox_Position_SelectionChanged" SelectedIndex="1">
+            <RadioButton x:Name="FirstSelection_RB" Content="Renton Aitfield" Height="30" Width="152" FontSize="16" GroupName="FlightPosition" Checked="FirstSelection_RB_Checked"/>
+            <RadioButton x:Name="SecondSelection_RB" Content="Naval Air Station" Height="30" Width="152" FontSize="16" GroupName="FlightPosition" Checked="SecondSelection_RB_Checked"/>
+            <RadioButton x:Name="ThirdSelection_RB" Content="Selective" Height="30" Width="152" FontSize="16" GroupName="FlightPosition" IsChecked="True" Checked="ThirdSelection_RB_Checked"/>
+        </ComboBox>
 
-	</Grid>
+    </Grid>
 </Window>

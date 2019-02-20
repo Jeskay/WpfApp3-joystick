@@ -49,6 +49,7 @@ namespace WpfApp3_joystick
         public Line myLine;
         public Line my2Line;
 
+        int ImageCounter = 0;
 
         private void MainWin_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -128,38 +129,14 @@ namespace WpfApp3_joystick
         {
             BitmapImage myBitmapImage = new BitmapImage();//создание битмапа для хранения изображения
             //установка цветов некоторым элементам
-            Label_0.Background = System.Windows.Media.Brushes.Lavender;
-            Label_1.Background = System.Windows.Media.Brushes.Lavender;
-            Label_2.Background = System.Windows.Media.Brushes.Lavender;
-            Label_3.Background = System.Windows.Media.Brushes.Lavender;
-            Label_4.Background = System.Windows.Media.Brushes.Lavender;
-            Label_5.Background = System.Windows.Media.Brushes.Lavender;
-            Label_6.Background = System.Windows.Media.Brushes.Lavender;
-            Label_7.Background = System.Windows.Media.Brushes.Lavender;
-            Label_8.Background = System.Windows.Media.Brushes.Lavender;
-            Label_9.Background = System.Windows.Media.Brushes.Lavender;
-            Label_10.Background = System.Windows.Media.Brushes.Lavender;
-            Label_11.Background = System.Windows.Media.Brushes.Lavender;
-            Label_12.Background = System.Windows.Media.Brushes.Lavender;
-            Label_13.Background = System.Windows.Media.Brushes.Lavender;
-            Label_FD.Background = System.Windows.Media.Brushes.Lavender;
-            GroupBox_FD.BorderBrush = System.Windows.Media.Brushes.SteelBlue;
-            GroupBox_TP.BorderBrush = System.Windows.Media.Brushes.SteelBlue;
-            GroupBox_Ruler.BorderBrush = System.Windows.Media.Brushes.SteelBlue;
-            ButtonR.Background = System.Windows.Media.Brushes.SkyBlue;
+            Label_0.Background = System.Windows.Media.Brushes.Lavender;            
+            GroupBox_Ruler.BorderBrush = System.Windows.Media.Brushes.SteelBlue; 
             Button2.Background = System.Windows.Media.Brushes.SkyBlue;
-            Button_FD.Background = System.Windows.Media.Brushes.SkyBlue;
             Form1.Background = System.Windows.Media.Brushes.LightSteelBlue;
-            ComboBox_StartP.Background = System.Windows.Media.Brushes.Azure;
             ME_test.Visibility = Visibility.Collapsed;
 
             //инициализация камеры и очистка текстбоксов
             webcam = new WebCamCapture();
-            TextBox_Diametr.Clear();
-            TextBox_N.Clear();
-            TextBox_V.Clear();
-            TextBox_p.Clear();
-            TextBoxCp.Clear();
             webcam.FrameNumber = ((ulong)(0ul));
             webcam.TimeToCapture_milliseconds = 30;
             webcam.ImageCaptured += new WebCamCapture.WebCamEventHandler(webcam_ImageCaptured);
@@ -199,71 +176,6 @@ namespace WpfApp3_joystick
 
         }
 
-        //расчет мощности турбин
-        private void ButtonR_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                double V = Convert.ToDouble(TextBox_V.Text) * 0.51444444444;
-                V = Math.Round(V * 10) / 10;
-                V = V * V * V;
-                double N = Convert.ToDouble(TextBox_N.Text);
-                double p = Convert.ToDouble(TextBox_p.Text);
-                double Cp = Convert.ToDouble(TextBoxCp.Text) / 100.0;
-                double D = (Convert.ToDouble(TextBox_Diametr.Text) / 2.0);
-                D = Math.Round(D * D * 3.14);
-                double P = (N / 2 * p * Cp * D * V) / 10;
-                P = Math.Round(P) * 10;
-
-                TextBox_P.Text = Math.Round(P) / 1000 + " Mgwatt";
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-        //расчёт места крушения
-        private void Button_FD_Click(object sender, RoutedEventArgs e)
-        {
-
-            double AirspeedonAscent = Convert.ToDouble(TextBox_AonA.Text);
-            double AscentRate = Convert.ToDouble(TextBox_AscR.Text);
-            double TimeOfFlight = Convert.ToDouble(TextBox_Tatof.Text);
-            double AirspeedonDescent = Convert.ToDouble(TextBox_AonD.Text);
-            double DescentRate = Convert.ToDouble(TextBox_DisR.Text);
-            double WindDirection = Convert.ToDouble(TextBox_WBdegrees.Text) + 180;
-            if (WindDirection > 360) WindDirection -= 360;
-            double WindSpeed = Convert.ToDouble(TextBox_WS.Text);
-            double AscentRange = AirspeedonAscent * TimeOfFlight;
-            double DescentRange = Math.Round((TimeOfFlight * AscentRate) / DescentRate * AirspeedonDescent);
-            double WindBlownRange;
-            if (IsBoxChecked)
-            {
-                WindBlownRange = Math.Round(((TimeOfFlight * AscentRate / DescentRate) + TimeOfFlight) * WindSpeed);
-                IsBoxChecked = false;
-            }
-            else
-            {
-                WindBlownRange = Math.Round((TimeOfFlight * AscentRate) / DescentRate) * WindSpeed;
-            }
-            Label_FD.Content = "Ascent vector: " + AscentRange + "m " + Convert.ToDouble(TextBox_FPdegrees.Text) + "\n" + "Descent vector: " + DescentRange + "m" + Convert.ToDouble(TextBox_FPdegrees.Text) + "\n" + "Wind vector: " + WindBlownRange + "m" + WindDirection;
-
-            //инициализация диалогового окна
-            MapDialogBox dlg = new MapDialogBox();
-            //
-            dlg.Owner = this;
-            dlg.AscentVector = AscentRange + DescentRange;
-            dlg.AscentDegrees = Convert.ToInt32(TextBox_FPdegrees.Text);
-            dlg.WindVector = WindBlownRange;
-            dlg.WindDirection = Convert.ToInt32(WindDirection);
-            int Transfer;
-            if (ComboBox_StartP.SelectedItem == RB_Firstposition) Transfer = 1;
-            else if (ComboBox_StartP.SelectedItem == RB_Secondposition) Transfer = 2;
-            else Transfer = 3;//переменная для передачи значений ComboBox
-            dlg.Transfer = Transfer;
-            dlg.ShowDialog();
-        }
-
         private void TextBox_WS_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -287,66 +199,30 @@ namespace WpfApp3_joystick
                     webcam.Start(0);
                 }
             }
-        }
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                
+                System.Windows.Controls.Image capturedimage = new System.Windows.Controls.Image();
+                capturedimage.Source = _FrameImage.Source;
+                capturedimage.MaxWidth = 40;
+                capturedimage.MaxHeight = 40;
+                capturedimage.MouseDown += capturedimage_MouseDown;
+                Images_Box.Items.Add(capturedimage);
 
+            }
+        }
+        private void capturedimage_MouseDown(object sender, RoutedEventArgs e)
+        {
+            SelectedImage selectedImage = new SelectedImage();
+            System.Windows.Controls.Image mainimage = (System.Windows.Controls.Image)sender;
+            selectedImage.Owner = this;
+            selectedImage.Selected_Image.Source = mainimage.Source;
+            selectedImage.Show();
+            webcam.Stop();
+        }
         private void ComboBox_StartP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        private void RB_Firstposition_Checked(object sender, RoutedEventArgs e)
-        {
-            ComboBox_StartP.SelectedItem = RB_Firstposition;
-        }
-
-        private void RB_Secondposition_Checked(object sender, RoutedEventArgs e)
-        {
-            ComboBox_StartP.SelectedItem = RB_Secondposition;
-        }
-
-        private void RB_Thirdposition_Checked(object sender, RoutedEventArgs e)
-        {
-            ComboBox_StartP.SelectedItem = RB_Thirdposition;
-        }
-
-        private void TextBox_FPdegrees_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_FPdegrees != null) TextBox_FPdegrees.SelectAll();
-        }
-
-        private void TextBox_AonA_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_AonA != null) TextBox_AonA.SelectAll();
-        }
-
-        private void TextBox_AscR_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_AscR != null) TextBox_AscR.SelectAll();
-        }
-
-        private void TextBox_Tatof_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_Tatof != null) TextBox_Tatof.SelectAll();
-        }
-
-        private void TextBox_AonD_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_AonD != null) TextBox_AonD.SelectAll();
-        }
-
-        private void TextBox_DisR_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_DisR != null) TextBox_DisR.SelectAll();
-        }
-
-        private void TextBox_WBdegrees_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_WBdegrees != null) TextBox_WBdegrees.SelectAll();
-        }
-
-        private void TextBox_WS_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (TextBox_WS != null) TextBox_WS.SelectAll();
         }
 
         private void CheckBox_WA_Checked(object sender, RoutedEventArgs e)
