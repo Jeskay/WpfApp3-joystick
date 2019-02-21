@@ -112,6 +112,14 @@ namespace WpfApp3_joystick
         {
 
         }
+        public event EventHandler WindowClosed;
+        private void SelectedImage_Window_Closed(object sender, EventArgs e)
+        {
+            if (WindowClosed != null)
+            {
+                WindowClosed(this, EventArgs.Empty);
+            }
+        }
 
         double k;
         double distance;

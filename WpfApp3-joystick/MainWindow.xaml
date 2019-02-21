@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp3_joystick"
         mc:Ignorable="d"
-        Title="MainWindow" Height="777.666" Width="1080" Loaded="MainWin_Loaded" MaxWidth="1366" MaxHeight="768" KeyUp="Keyboard_KeyUp">
+        Title="MainWindow" Height="777.666" Width="1080" Loaded="MainWin_Loaded" MaxWidth="1920" MaxHeight="1080" KeyUp="Keyboard_KeyUp">
     <Grid x:Name="Form1" RenderTransformOrigin="0.503,0.484" Margin="0,0,2,-1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="27*"/>
@@ -14,32 +14,13 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="Button1" Content="Button" HorizontalAlignment="Left" Height="319" VerticalAlignment="Top" Width="517" Click="Button1_Click" Visibility="Hidden" Grid.ColumnSpan="3"/>
-        <Image x:Name="ImageWebcam1" Margin="2,0,0,0" MouseDown="MainWin_MouseDown" MouseMove="MainWin_MouseMove" MouseUp="MainWin_MouseUp" RenderTransformOrigin="0.5,0.511" FlowDirection="RightToLeft" HorizontalAlignment="Left" Width="727" Height="734" VerticalAlignment="Top" Grid.ColumnSpan="3">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-0.07" Y="0.001"/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Grid x:Name="myGrid" MouseUp="Form1_MouseUp" HorizontalAlignment="Left" VerticalAlignment="Top" Height="700" Width="720" Grid.ColumnSpan="3"/>
-        <GroupBox x:Name="GroupBox_Ruler" Grid.Column="2" Header="Ruler" HorizontalAlignment="Left" Height="152" Margin="605,541,-9,0" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="3">
-            <Grid x:Name="GroupBoxRuler_Grid" HorizontalAlignment="Left" Height="142" Margin="10,0,-2,-12" VerticalAlignment="Top" Width="314">
-                <Label x:Name="Label_0" Content="Реальный&#xA;Размер" HorizontalAlignment="Right" Height="43" Margin="0,23,212,0" VerticalAlignment="Top" Width="92"/>
-                <TextBox x:Name="TextBox2" HorizontalAlignment="Right" Height="43" Margin="0,23,114,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" TextChanged="TextBox2_TextChanged"/>
-                <Button x:Name="Button2" Content="Stop" HorizontalAlignment="Right" Height="43" Margin="0,71,212,0" VerticalAlignment="Top" Width="92" Click="Button2_Click"/>
-                <TextBox x:Name="TextBox1" HorizontalAlignment="Right" Height="43" Margin="0,71,114,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" TextChanged="TextBox1_TextChanged"/>
-                <Label x:Name="Label_14" Content="Meters" HorizontalAlignment="Left" Height="43" Margin="200,71,0,0" VerticalAlignment="Top" Width="90" FontSize="16"/>
-                <Label x:Name="Label_14_Copy" Content="Meters" HorizontalAlignment="Left" Height="43" Margin="200,23,0,0" VerticalAlignment="Top" Width="90" FontSize="16"/>
-            </Grid>
-        </GroupBox>
+        <Grid x:Name="myGrid" Grid.ColumnSpan="3" Margin="0,0,199,20" HorizontalAlignment="Right" Width="871" Height="728" VerticalAlignment="Bottom">
+            <Image x:Name="ImageWebcam1" Margin="2,0,0,0" RenderTransformOrigin="0.5,0.511" FlowDirection="RightToLeft" HorizontalAlignment="Left" Width="auto" Height="auto" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+        </Grid>
         <MediaElement x:Name="ME_test" Grid.Column="2" HorizontalAlignment="Left" Height="368" Margin="57,337,0,0" VerticalAlignment="Top" Width="492" LoadedBehavior="Manual" Source="Video/Putin.mp4" Volume="2" Visibility="Collapsed"/>
-        <GroupBox x:Name="Images_GroupBox" Grid.Column="2" Header="Images" HorizontalAlignment="Left" Height="526" Margin="605,10,0,0" VerticalAlignment="Top" Width="325">
-            <Grid x:Name="Images_Grid" HorizontalAlignment="Left" Height="516" Margin="-6,-6,-2,-6" VerticalAlignment="Top" Width="321">
-                <ListBox x:Name="Images_Box" HorizontalAlignment="Left" Height="506" Margin="0,10,0,0" VerticalAlignment="Top" Width="321"/>
+        <GroupBox x:Name="Images_GroupBox" Grid.Column="2" Header="Images" Margin="0,10,-0.389,20" HorizontalAlignment="Right" Width="193" Grid.ColumnSpan="3">
+            <Grid x:Name="Images_Grid" HorizontalAlignment="Left" Height="516" Margin="-6,-6,-12,-6" VerticalAlignment="Top" Width="199" >
+                <ListBox x:Name="Images_Box" HorizontalAlignment="Left" Height="691" Margin="10,10,0,-185" Background="CornflowerBlue" VerticalAlignment="Top" Width="179"/>
             </Grid>
         </GroupBox>
 

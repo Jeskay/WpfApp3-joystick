@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp3_joystick"
         mc:Ignorable="d"
-        Title="SelectedImage" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="SelectedImage" Height="450" Width="800" Loaded="Window_Loaded" Closed="SelectedImage_Window_Closed">
     <Grid x:Name="MainGrid">
-        <Grid x:Name="ImageGrid" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="578">
+        <Grid x:Name="ImageGrid" Margin="0,0,214,0">
             <Image x:Name="Selected_Image" HorizontalAlignment="Left" VerticalAlignment="Top" MouseMove="Selected_Image_MouseMove" MouseDown="Selected_Image_MouseDown" MouseUp="Selected_Image_MouseUp"/>
         </Grid>
-        <GroupBox x:Name="GroupBox_Ruler"  Header="Ruler" HorizontalAlignment="Left" Height="126" Margin="578,293,0,0" VerticalAlignment="Top" Width="214">
+        <GroupBox x:Name="GroupBox_Ruler"  Header="Ruler" HorizontalAlignment="Right" Width="214" Height="126" VerticalAlignment="Bottom">
             <Grid x:Name="GroupBoxRuler_Grid" Margin="0,0,-2,-3" HorizontalAlignment="Right" Width="204" Height="111" VerticalAlignment="Bottom">
                 <Label x:Name="Label_0" Content="Реальный&#xA;Размер" HorizontalAlignment="Right" Height="43" Margin="0,0,100,58" VerticalAlignment="Bottom" Width="92"/>
                 <TextBox x:Name="TextBox2" HorizontalAlignment="Right" Margin="0,0,7,58" TextWrapping="Wrap" Width="93" TextChanged="TextBox2_TextChanged" Height="43" VerticalAlignment="Bottom"/>
