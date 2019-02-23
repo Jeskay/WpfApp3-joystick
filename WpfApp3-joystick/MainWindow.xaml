@@ -6,23 +6,41 @@
         xmlns:local="clr-namespace:WpfApp3_joystick"
         mc:Ignorable="d"
         Title="MainWindow" Height="777.666" Width="1080" Loaded="MainWin_Loaded" MaxWidth="1920" MaxHeight="1080" KeyUp="Keyboard_KeyUp">
-    <Grid x:Name="Form1" RenderTransformOrigin="0.503,0.484" Margin="0,0,2,-1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="27*"/>
-            <ColumnDefinition Width="62*"/>
-            <ColumnDefinition Width="589*"/>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="0*"/>
-        </Grid.ColumnDefinitions>
-        <Grid x:Name="myGrid" Grid.ColumnSpan="3" Margin="0,0,199,20" HorizontalAlignment="Right" Width="871" Height="728" VerticalAlignment="Bottom">
-            <Image x:Name="ImageWebcam1" Margin="2,0,0,0" RenderTransformOrigin="0.5,0.511" FlowDirection="RightToLeft" HorizontalAlignment="Left" Width="auto" Height="auto" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
-        </Grid>
-        <MediaElement x:Name="ME_test" Grid.Column="2" HorizontalAlignment="Left" Height="368" Margin="57,337,0,0" VerticalAlignment="Top" Width="492" LoadedBehavior="Manual" Source="Video/Putin.mp4" Volume="2" Visibility="Collapsed"/>
-        <GroupBox x:Name="Images_GroupBox" Grid.Column="2" Header="Images" Margin="0,10,-0.389,20" HorizontalAlignment="Right" Width="193" Grid.ColumnSpan="3">
-            <Grid x:Name="Images_Grid" HorizontalAlignment="Left" Height="516" Margin="-6,-6,-12,-6" VerticalAlignment="Top" Width="199" >
-                <ListBox x:Name="Images_Box" HorizontalAlignment="Left" Height="691" Margin="10,10,0,-185" Background="CornflowerBlue" VerticalAlignment="Top" Width="179"/>
+    <TabControl x:Name="Programs_TabControl" HorizontalAlignment="Right" Height="748" Margin="0,0,2,-1" VerticalAlignment="Top" Width="1070">
+        <TabItem x:Name="Ruler_Tab" Header="Ruler" GotFocus="Ruler_Tab_GotFocus">
+            <Grid x:Name="RulerTab_Grid" Background="#FFE5E5E5">
+                <Grid x:Name="Form1" RenderTransformOrigin="0.503,0.484" Margin="0,0,-6,0" Panel.ZIndex="1">
+                    <Grid x:Name="myGrid" Margin="0,0,199,33" HorizontalAlignment="Right" Width="871" Height="675" VerticalAlignment="Bottom" Panel.ZIndex="2">
+                        <Image x:Name="ImageWebcam1" Margin="2,0,0,0" RenderTransformOrigin="0.5,0.511" FlowDirection="RightToLeft" HorizontalAlignment="Left" Width="auto" Height="auto" VerticalAlignment="Top" Grid.ColumnSpan="3" Panel.ZIndex="3"/>
+                    </Grid>
+                    <MediaElement x:Name="ME_test" Grid.Column="2" HorizontalAlignment="Left" Height="368" Margin="57,337,0,0" VerticalAlignment="Top" Width="492" LoadedBehavior="Manual" Source="Video/Putin.mp4" Volume="2" Visibility="Collapsed" Panel.ZIndex="4"/>
+                    <GroupBox x:Name="Images_GroupBox" Header="Images" Margin="0,10,1,20" HorizontalAlignment="Right" Width="193" Panel.ZIndex="3">
+                        <Grid x:Name="Images_Grid" HorizontalAlignment="Left" Height="516" Margin="-6,-6,-12,-6" VerticalAlignment="Top" Width="199" >
+                            <ListBox x:Name="Images_Box" HorizontalAlignment="Left" Height="691" Margin="10,10,0,-185" Background="CornflowerBlue" VerticalAlignment="Top" Width="179"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </Grid>
-        </GroupBox>
+        </TabItem>
+        <TabItem x:Name="Recognition_Tab" Header="Recognition" GotFocus="Recognition_Tab_GotFocus">
+            <Grid x:Name="Main_Grid">
+                <Image x:Name="Image1" HorizontalAlignment="Left" MaxWidth="847" VerticalAlignment="Top"/>
+                <GroupBox x:Name="FindFigures_GroupBox" Header="Finded Figures" HorizontalAlignment="Left" Height="700" Margin="847,10,0,0" VerticalAlignment="Top" Width="217">
+                    <Grid x:Name="GoupBox_Grid" HorizontalAlignment="Left" Height="668" VerticalAlignment="Top" Width="197" Margin="10,10,-2,0">
+                        <Canvas x:Name="Figures_Canvas" HorizontalAlignment="Left" Height="658" VerticalAlignment="Top" Width="118">
+                            <Polygon Points="10,110 60,10 110,110" Fill="Black" Height="130" Canvas.Top="161" Width="118" />
+                            <Ellipse Canvas.Left="23" Fill="Black" Height="75" Width="75" Canvas.Top="10" />
+                            <Rectangle Width="100" Height="39" Fill="Black" Canvas.Left="10" Canvas.Top="424" />
+                            <Rectangle Width="70" Height="70" Fill="Black" Canvas.Left="23" Canvas.Top="569" />
+                        </Canvas>
+                        <Label x:Name="Circles_Label" Content="{Binding Circles}" HorizontalAlignment="Left" Height="80" Margin="118,10,0,0" VerticalAlignment="Top" Width="79"/>
+                        <Label x:Name="Triangles_Label" Content="{Binding Triangles}" HorizontalAlignment="Left" Height="75" Margin="118,187,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
+                        <Label x:Name="Rectangle_Label" Content="{Binding Lines}" HorizontalAlignment="Left" Height="68" Margin="118,404,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
+                        <Label x:Name="Square_Label" Content="{Binding Squares}" HorizontalAlignment="Left" Height="76" Margin="118,570,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
+                    </Grid>
+                </GroupBox>
 
-    </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using Microsoft.DirectX;
 using Microsoft.DirectX.DirectInput;
 using System.Windows.Interop;
-using OpenCvSharp;
 using OpenCvSharp.ML;
 using WebCam_Capture;
 using System.ComponentModel;
@@ -23,7 +22,9 @@ using Microsoft.Win32;
 using System.Drawing;
 using System.IO;
 using System.Diagnostics;
-
+using System.Windows.Threading;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace WpfApp3_joystick
 {
@@ -33,18 +34,20 @@ namespace WpfApp3_joystick
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
-      
-        //изображение
-        private WebCamCapture webcam;
-        private System.Windows.Controls.Image _FrameImage;
-        
-        public Line myLine;
-        public Line my2Line;
 
+        //изображение
+        private VideoCapture _capture = new VideoCapture();
+        DispatcherTimer VideoTimer = new DispatcherTimer();
+        private Recognition Recognition = new Recognition();
+        private FiguresView figuresView = new FiguresView(new FiguresModel());
+
+        private bool FirstWindowaCtivated = true;
 
         public MainWindow()
         {
             InitializeComponent();
+            _capture.FlipHorizontal = true;
+            GoupBox_Grid.DataContext = figuresView;
         }
         private void MainWin_Loaded(object sender, RoutedEventArgs e)
         {
@@ -54,28 +57,16 @@ namespace WpfApp3_joystick
             ME_test.Visibility = Visibility.Collapsed;
 
             //инициализация камеры и очистка текстбоксов
-            webcam = new WebCamCapture();
-            webcam.FrameNumber = ((ulong)(0ul));
-            webcam.TimeToCapture_milliseconds = 30;
-            webcam.ImageCaptured += new WebCamCapture.WebCamEventHandler(webcam_ImageCaptured);
-            _FrameImage = ImageWebcam1;
+            
+            VideoTimer.Tick += new EventHandler(VTimer_Tick);
+            VideoTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            VideoTimer.Start();
 
-            //инициализация линий
-            myLine = new Line();
-            myLine.StrokeThickness = 1;
-            myGrid.Children.Add(myLine);
-            my2Line = new Line();
-            my2Line.StrokeThickness = 1;
-            myLine.Stroke = System.Windows.Media.Brushes.Blue;
-            my2Line.Stroke = System.Windows.Media.Brushes.Red;
-            myGrid.Children.Add(my2Line);
-
-            webcam.Start(0);//запуск потока видео
         }
 
         public void ContinueCamera(object sender, EventArgs e)
         {
-            webcam.Start(0);
+            VideoTimer.Start();
         }
 
         private void Keyboard_KeyUp(object sender, KeyEventArgs e)
@@ -86,26 +77,26 @@ namespace WpfApp3_joystick
                 if (ME_test.Visibility != Visibility.Visible)
                 {
                     ME_test.Visibility = Visibility.Visible;
-                    webcam.Stop();
+                    VideoTimer.Stop();
                     ME_test.Play();
                 }
                 else
                 {
                     ME_test.Stop();
                     ME_test.Visibility = Visibility.Collapsed;
-                    webcam.Start(0);
+                    VideoTimer.Start();
                 }
             }
             if (e.Key == System.Windows.Input.Key.Enter)
             {
 
                 System.Windows.Controls.Image capturedimage = new System.Windows.Controls.Image();
-                capturedimage.Source = _FrameImage.Source;
+                capturedimage.Source = ImageWebcam1.Source;
                 capturedimage.MaxWidth = 60;
                 capturedimage.MaxHeight = 60;
                 capturedimage.MouseDown += capturedimage_MouseDown;
                 Images_Box.Items.Add(capturedimage);
-
+                
             }
         }
         private void capturedimage_MouseDown(object sender, RoutedEventArgs e)
@@ -116,39 +107,35 @@ namespace WpfApp3_joystick
             selectedImage.Selected_Image.Source = mainimage.Source;
             selectedImage.WindowClosed += ContinueCamera;
             selectedImage.Show();
-            webcam.Stop();
+            VideoTimer.Stop();
         }
         private void ComboBox_StartP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        //класс для выделения памяти для хранения изображения
-        class Helper
+        private void VTimer_Tick(object sender, EventArgs e)
         {
-            //Block Memory Leak
-            [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-            public static extern bool DeleteObject(IntPtr handle);
-            public static BitmapSource bs;
-            public static IntPtr ip;
-            public static BitmapSource LoadBitmap(System.Drawing.Bitmap source)
+            Mat image = _capture.QueryFrame();
+            if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(image.ToImage<Bgr, Byte>());
+            else
             {
-
-                ip = source.GetHbitmap();
-
-                bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip, IntPtr.Zero, System.Windows.Int32Rect.Empty,
-
-                    System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-
-                DeleteObject(ip);
-
-                return bs;
-
+                Image1.Source = Recognition.FindFigures(image);
+                figuresView.Circles = Recognition.Circles;
+                figuresView.Lines = Recognition.Lines;
+                figuresView.Triangles = Recognition.Triangles;
+                figuresView.Squares = Recognition.Squares;
             }
         }
-        void webcam_ImageCaptured(object source, WebcamEventArgs e)//запись изображения
+
+        private void Recognition_Tab_GotFocus(object sender, RoutedEventArgs e)
         {
-            _FrameImage.Source = Helper.LoadBitmap((System.Drawing.Bitmap)e.WebCamImage);
+            FirstWindowaCtivated = false;
+        }
+
+        private void Ruler_Tab_GotFocus(object sender, RoutedEventArgs e)
+        {
+            FirstWindowaCtivated = true;
         }
     }
 }

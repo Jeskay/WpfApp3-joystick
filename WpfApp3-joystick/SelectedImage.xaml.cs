@@ -21,7 +21,7 @@ namespace WpfApp3_joystick
     {
         //линейка
         double x, y, x1, y1, x2, y2, x3, y3, x4, y4;
-
+        int mark = 0;
         private void Selected_Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine(e.LeftButton);
@@ -124,8 +124,6 @@ namespace WpfApp3_joystick
         double k;
         double distance;
         bool Mouseclick = false;//клавиша нажата
-        int mark = 0;//если таймер положительный
-        int mark2 = 0;//значение таймера отрицательное
 
         public Line myLine;
         public Line my2Line;
