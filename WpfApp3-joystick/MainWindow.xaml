@@ -58,9 +58,9 @@
         </TabItem>
         <TabItem x:Name="Calculation_Tab" Header="Calculation" GotFocus="Calculation_Tab_GotFocus">
             <Grid x:Name="Calculation_Grid">
-                <Button x:Name="Calculate_Button" Content="Calculate" HorizontalAlignment="Left" Height="71" Margin="510,359,0,0" VerticalAlignment="Top" Width="496" Click="Button_Click"/>
+                <Button x:Name="Calculate_Button" Content="Расчитать" HorizontalAlignment="Left" Height="71" Margin="510,359,0,0" VerticalAlignment="Top" Width="496" Click="Button_Click"/>
                 <Label x:Name="OutputData_Label" Content="" HorizontalAlignment="Left" Height="202" Margin="510,157,0,0" VerticalAlignment="Top" Width="496" Background="#FFCBC6C6" FontSize="24"/>
-                <GroupBox x:Name="Data_GroupBox" Header="GroupBox" HorizontalAlignment="Left" Height="700" Margin="20,10,0,0" VerticalAlignment="Top" Width="469">
+                <GroupBox x:Name="Data_GroupBox" Header="Данные" HorizontalAlignment="Left" Height="700" Margin="20,10,0,0" VerticalAlignment="Top" Width="469">
                     <Grid x:Name="Calculation_Grid1" HorizontalAlignment="Left" Height="690" VerticalAlignment="Top" Width="459" Margin="0,0,-2,-12">
                         <TextBox x:Name="R2_TextBox" HorizontalAlignment="Left" Margin="215,163,0,0" VerticalAlignment="Top" Style="{StaticResource TBGreyTheme}"/>
                         <Label x:Name="firstRadius_Label" Content="меньший радиус" HorizontalAlignment="Left" Margin="0,163,0,0" VerticalAlignment="Top" Style="{StaticResource LabelGreyTheme}"/>
