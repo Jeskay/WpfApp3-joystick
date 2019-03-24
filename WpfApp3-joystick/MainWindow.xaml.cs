@@ -36,28 +36,38 @@ namespace WpfApp3_joystick
     {
 
         //изображение
-        private VideoCapture _capture = new VideoCapture();
+        private VideoCapture Firstcapture = new VideoCapture(1);
+        private VideoCapture Secondcapture = new VideoCapture(2);
+        private VideoCapture Defaultcapture = new VideoCapture(0);
         DispatcherTimer VideoTimer = new DispatcherTimer();
         private Recognition Recognition = new Recognition();
         private FiguresView figuresView = new FiguresView(new FiguresModel());
+        private MainView mainView = new MainView(new MainModel());
 
         private bool FirstWindowaCtivated = true;
 
         public MainWindow()
         {
             InitializeComponent();
-            _capture.FlipHorizontal = true;
+            Firstcapture.FlipHorizontal = true;
             GoupBox_Grid.DataContext = figuresView;
         }
         private void MainWin_Loaded(object sender, RoutedEventArgs e)
         {
-            BitmapImage myBitmapImage = new BitmapImage();//создание битмапа для хранения изображения
             //установка цветов некоторым элементам
-            Form1.Background = System.Windows.Media.Brushes.LightSteelBlue;
             ME_test.Visibility = Visibility.Collapsed;
 
-            //инициализация камеры и очистка текстбоксов
-            
+            //инициализация камер
+            if (!Firstcapture.IsOpened)
+            {
+                RulerFirstCamera_RB.Visibility = Visibility.Collapsed;
+                RecognitionFirstCamera_RB.Visibility = Visibility.Collapsed;
+            }
+            if (!Secondcapture.IsOpened)
+            {
+                RulerSecondCamera_RB.Visibility = Visibility.Collapsed;
+                RecognitionSecondCamera_RB.Visibility = Visibility.Collapsed;
+            }
             VideoTimer.Tick += new EventHandler(VTimer_Tick);
             VideoTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             VideoTimer.Start();
@@ -116,11 +126,12 @@ namespace WpfApp3_joystick
 
         private void VTimer_Tick(object sender, EventArgs e)
         {
-            Mat image = _capture.QueryFrame();
-            if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(image.ToImage<Bgr, Byte>());
+            Mat Rulerimage = mainView.RulerCamera.QueryFrame();
+            Mat Recognitionimage = mainView.RecognitionCamera.QueryFrame();
+            if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(Rulerimage.ToImage<Bgr, Byte>());
             else
             {
-                Image1.Source = Recognition.FindFigures(image);
+                Image1.Source = Recognition.FindFigures(Recognitionimage);
                 figuresView.Circles = Recognition.Circles;
                 figuresView.Lines = Recognition.Lines;
                 figuresView.Triangles = Recognition.Triangles;
@@ -152,6 +163,36 @@ namespace WpfApp3_joystick
         private void Calculation_Tab_GotFocus(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void RecognitionStandartCamera_RB_Checked(object sender, RoutedEventArgs e)
+        {
+            mainView.RecognitionCamera = Defaultcapture;
+        }
+
+        private void RecognitionFirstCamera_RB_Checked(object sender, RoutedEventArgs e)
+        {
+            mainView.RecognitionCamera = Firstcapture;
+        }
+
+        private void RecognitionSecondCamera_RB_Checked(object sender, RoutedEventArgs e)
+        {
+            mainView.RecognitionCamera = Secondcapture;
+        }
+
+        private void RulerStandartCamera_RB_Checked(object sender, RoutedEventArgs e)
+        {
+            mainView.RulerCamera = Defaultcapture;
+        }
+
+        private void RulerFirstCamera_RB_Checked(object sender, RoutedEventArgs e)
+        {
+            mainView.RulerCamera = Firstcapture;
+        }
+
+        private void RulerSecondCamera_RB_Checked(object sender, RoutedEventArgs e)
+        {
+            mainView.RulerCamera = Secondcapture;
         }
     }
 }
