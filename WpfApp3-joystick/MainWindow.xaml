@@ -23,22 +23,25 @@
     <TabControl x:Name="Programs_TabControl" HorizontalAlignment="Right" Height="748" Margin="0,0,2,-1" VerticalAlignment="Top" Width="1070">
         <TabItem x:Name="Ruler_Tab" Header="Ruler" GotFocus="Ruler_Tab_GotFocus">
             <Grid x:Name="RulerTab_Grid" Background="#FFE5E5E5">
-                <Grid x:Name="Form1" RenderTransformOrigin="0.503,0.484" Margin="0,0,-6,0" Panel.ZIndex="1">
-                    <Grid x:Name="myGrid" Margin="0,0,199,33" HorizontalAlignment="Right" Width="871" Height="675" VerticalAlignment="Bottom" Panel.ZIndex="2">
-                        <Image x:Name="ImageWebcam1" Margin="2,0,0,0" RenderTransformOrigin="0.5,0.511" FlowDirection="RightToLeft" HorizontalAlignment="Left" Width="auto" Height="auto" VerticalAlignment="Top" Grid.ColumnSpan="3" Panel.ZIndex="3"/>
-                    </Grid>
-                    <MediaElement x:Name="ME_test" Grid.Column="2" HorizontalAlignment="Left" Height="368" Margin="57,337,0,0" VerticalAlignment="Top" Width="492" LoadedBehavior="Manual" Source="Video/Putin.mp4" Volume="2" Visibility="Collapsed" Panel.ZIndex="4"/>
-                    <GroupBox x:Name="Images_GroupBox" Header="Images" Margin="0,10,1,20" HorizontalAlignment="Right" Width="193" Panel.ZIndex="3">
-                        <Grid x:Name="Images_Grid" HorizontalAlignment="Left" Height="516" Margin="-6,-6,-12,-6" VerticalAlignment="Top" Width="199" >
-                            <ListBox x:Name="Images_Box" HorizontalAlignment="Left" Height="691" Margin="10,10,0,-185" Background="CornflowerBlue" VerticalAlignment="Top" Width="179"/>
-                        </Grid>
-                    </GroupBox>
+                <Grid x:Name="myGrid" Margin="-6,0,199,0" HorizontalAlignment="Right" Width="871" Height="675" VerticalAlignment="Bottom" Panel.ZIndex="2">
+                    <Image x:Name="ImageWebcam1" HorizontalAlignment="Left" MaxWidth="847" VerticalAlignment="Top" Grid.ColumnSpan="3" Panel.ZIndex="3"/>
                 </Grid>
+                <MediaElement x:Name="ME_test" Grid.Column="2" HorizontalAlignment="Left" Height="368" Margin="57,337,0,0" VerticalAlignment="Top" Width="492" LoadedBehavior="Manual" Source="Video/Putin.mp4" Volume="2" Visibility="Collapsed" Panel.ZIndex="4"/>
+                <GroupBox x:Name="Images_GroupBox" Header="Images" Margin="0,10,1,20" HorizontalAlignment="Right" Width="193" Panel.ZIndex="3">
+                    <Grid x:Name="Images_Grid" HorizontalAlignment="Left" Height="516" Margin="-6,-6,-12,-6" VerticalAlignment="Top" Width="199" >
+                        <ListBox x:Name="Images_Box" HorizontalAlignment="Left" Height="691" Margin="10,10,0,-185" Background="CornflowerBlue" VerticalAlignment="Top" Width="179"/>
+                    </Grid>
+                </GroupBox>
+                <ComboBox x:Name="RulerCamera_ComboBox" HorizontalAlignment="Left" Height="46" Margin="0,-1,0,675" VerticalAlignment="Bottom" Width="252">
+                    <RadioButton x:Name="RulerStandartCamera_RB" Content="Default Camera" Height="50" Width="245" GroupName="RulerCameraSelection" Checked="RulerStandartCamera_RB_Checked" IsChecked="True"/>
+                    <RadioButton x:Name="RulerFirstCamera_RB" Content="Camera 1" Height="50" Width="245" GroupName="RulerCameraSelection" Checked="RulerFirstCamera_RB_Checked"/>
+                    <RadioButton x:Name="RulerSecondCamera_RB" Content="Camera 2" Height="50" Width="245" GroupName="RulerCameraSelection" Checked="RulerSecondCamera_RB_Checked"/>
+                </ComboBox>
             </Grid>
         </TabItem>
         <TabItem x:Name="Recognition_Tab" Header="Recognition" GotFocus="Recognition_Tab_GotFocus">
             <Grid x:Name="Main_Grid">
-                <Image x:Name="Image1" HorizontalAlignment="Left" MaxWidth="847" VerticalAlignment="Top"/>
+
                 <GroupBox x:Name="FindFigures_GroupBox" Header="Finded Figures" HorizontalAlignment="Left" Height="700" Margin="847,10,0,0" VerticalAlignment="Top" Width="217">
                     <Grid x:Name="GoupBox_Grid" HorizontalAlignment="Left" Height="668" VerticalAlignment="Top" Width="197" Margin="10,10,-2,0">
                         <Canvas x:Name="Figures_Canvas" HorizontalAlignment="Left" Height="658" VerticalAlignment="Top" Width="118">
@@ -47,13 +50,20 @@
                             <Rectangle Width="100" Height="39" Fill="Black" Canvas.Left="10" Canvas.Top="424" />
                             <Rectangle Width="70" Height="70" Fill="Black" Canvas.Left="23" Canvas.Top="569" />
                         </Canvas>
-                        <Label x:Name="Circles_Label" Content="{Binding Circles}" HorizontalAlignment="Left" Height="80" Margin="118,10,0,0" VerticalAlignment="Top" Width="79"/>
+                        <Label x:Name="Circles_Label" Content="{Binding Circles}" HorizontalAlignment="Left" Height="80" Margin="118,10,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
                         <Label x:Name="Triangles_Label" Content="{Binding Triangles}" HorizontalAlignment="Left" Height="75" Margin="118,187,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
                         <Label x:Name="Rectangle_Label" Content="{Binding Lines}" HorizontalAlignment="Left" Height="68" Margin="118,404,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
                         <Label x:Name="Square_Label" Content="{Binding Squares}" HorizontalAlignment="Left" Height="76" Margin="118,570,0,0" VerticalAlignment="Top" Width="79" FontSize="24"/>
                     </Grid>
                 </GroupBox>
-
+                <Grid x:Name="ReacognitioCamera_Grid" HorizontalAlignment="Left" Height="669" Margin="0,51,0,0" VerticalAlignment="Top" Width="847">
+                    <Image x:Name="Image1" HorizontalAlignment="Left" MaxWidth="847" VerticalAlignment="Top"/>
+                </Grid>
+                <ComboBox x:Name="RecognitionCamera_ComboBox" HorizontalAlignment="Left" Height="46" Margin="0,-1,0,675" VerticalAlignment="Bottom" Width="252">
+                    <RadioButton x:Name="RecognitionStandartCamera_RB" Content="Default Camera" Height="50" Width="245" GroupName="RecognitionCameraSelection" Checked="RecognitionStandartCamera_RB_Checked" IsChecked="True"/>
+                    <RadioButton x:Name="RecognitionFirstCamera_RB" Content="Camera 1" Height="50" Width="245" GroupName="RecognitionCameraSelection" Checked="RecognitionFirstCamera_RB_Checked"/>
+                    <RadioButton x:Name="RecognitionSecondCamera_RB" Content="Camera 2" Height="50" Width="245" GroupName="RecognitionCameraSelection" Checked="RecognitionSecondCamera_RB_Checked"/>
+                </ComboBox>
             </Grid>
         </TabItem>
         <TabItem x:Name="Calculation_Tab" Header="Calculation" GotFocus="Calculation_Tab_GotFocus">
