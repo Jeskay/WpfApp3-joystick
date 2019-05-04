@@ -84,7 +84,7 @@ namespace WpfApp3_joystick
         }
         public bool Is_Rectangle(VectorOfPoint hull)
         {
-            CvInvoke.ApproxPolyDP(hull, hull, 15, true);
+            CvInvoke.ApproxPolyDP(hull, hull, 10, true);
             if (hull.Size == 4)
             {
                 System.Drawing.Rectangle r = CvInvoke.BoundingRectangle(hull);
