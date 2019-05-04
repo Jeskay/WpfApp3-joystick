@@ -36,9 +36,9 @@ namespace WpfApp3_joystick
     {
 
         //изображение
-        private VideoCapture Firstcapture = new VideoCapture(1);
+        private VideoCapture Defaultcapture = new VideoCapture(1);
+        private VideoCapture Firstcapture = new VideoCapture(0);
         private VideoCapture Secondcapture = new VideoCapture(2);
-        private VideoCapture Defaultcapture = new VideoCapture(0);
         DispatcherTimer VideoTimer = new DispatcherTimer();
         private Recognition Recognition = new Recognition();
         private FiguresView figuresView = new FiguresView(new FiguresModel());
@@ -49,7 +49,14 @@ namespace WpfApp3_joystick
         public MainWindow()
         {
             InitializeComponent();
-            Firstcapture.FlipHorizontal = true;
+            try
+            {
+                Firstcapture.FlipHorizontal = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Возникло Исключение: " + ex);
+            }
             GoupBox_Grid.DataContext = figuresView;
         }
         private void MainWin_Loaded(object sender, RoutedEventArgs e)
@@ -58,6 +65,11 @@ namespace WpfApp3_joystick
             ME_test.Visibility = Visibility.Collapsed;
 
             //инициализация камер
+            if (!Defaultcapture.IsOpened)
+            {
+                RulerStandartCamera_RB.Visibility = Visibility.Collapsed;
+                RecognitionFirstCamera_RB.Visibility = Visibility.Collapsed;
+            }
             if (!Firstcapture.IsOpened)
             {
                 RulerFirstCamera_RB.Visibility = Visibility.Collapsed;
@@ -126,17 +138,27 @@ namespace WpfApp3_joystick
 
         private void VTimer_Tick(object sender, EventArgs e)
         {
-            Mat Rulerimage = mainView.RulerCamera.QueryFrame();
-            Mat Recognitionimage = mainView.RecognitionCamera.QueryFrame();
-            if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(Rulerimage.ToImage<Bgr, Byte>());
-            else
+            try
             {
-                Image1.Source = Recognition.FindFigures(Recognitionimage);
-                figuresView.Circles = Recognition.Circles;
-                figuresView.Lines = Recognition.Lines;
-                figuresView.Triangles = Recognition.Triangles;
-                figuresView.Squares = Recognition.Squares;
+                Mat Rulerimage = mainView.RulerCamera.QueryFrame();
+                if (Rulerimage != null)
+                {
+                    Mat Recognitionimage;
+                    if (mainView.RecognitionCamera != mainView.RulerCamera) Recognitionimage = mainView.RecognitionCamera.QueryFrame();
+                    else Recognitionimage = Rulerimage;
+                    if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(Rulerimage.ToImage<Bgr, Byte>());
+                    else
+                    {
+                        Image1.Source = Recognition.FindFigures(Recognitionimage);
+                        figuresView.Circles = Recognition.Circles;
+                        figuresView.Lines = Recognition.Lines;
+                        figuresView.Triangles = Recognition.Triangles;
+                        figuresView.Squares = Recognition.Squares;
+                    }
+                }
             }
+            catch (Exception ex)
+            { }
         }
 
         private void Recognition_Tab_GotFocus(object sender, RoutedEventArgs e)
