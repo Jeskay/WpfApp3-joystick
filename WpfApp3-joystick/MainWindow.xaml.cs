@@ -36,56 +36,43 @@ namespace WpfApp3_joystick
     {
 
         //изображение
-        private VideoCapture Defaultcapture = new VideoCapture(1);
-        private VideoCapture Firstcapture = new VideoCapture(0);
-        private VideoCapture Secondcapture = new VideoCapture(2);
+        private WebCamCapture RulerCam = new WebCamCapture();
+        private WebCamCapture RecognitionCam = new WebCamCapture();
         DispatcherTimer VideoTimer = new DispatcherTimer();
         private Recognition Recognition = new Recognition();
         private FiguresView figuresView = new FiguresView(new FiguresModel());
         private MainView mainView = new MainView(new MainModel());
-
         private bool FirstWindowaCtivated = true;
 
         public MainWindow()
         {
             InitializeComponent();
-            try
-            {
-                Firstcapture.FlipHorizontal = true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Возникло Исключение: " + ex);
-            }
             GoupBox_Grid.DataContext = figuresView;
         }
         private void MainWin_Loaded(object sender, RoutedEventArgs e)
         {
             //установка цветов некоторым элементам
             ME_test.Visibility = Visibility.Collapsed;
-
+            RulerCam.FrameNumber = ((ulong)(0ul));
+            RulerCam.TimeToCapture_milliseconds = 30;
+            RulerCam.ImageCaptured += new WebCamCapture.WebCamEventHandler(firstcam_ImageCaptured);
+            RecognitionCam.FrameNumber = ((ulong)(0ul));
+            RecognitionCam.TimeToCapture_milliseconds = 30;
+            RecognitionCam.ImageCaptured += new WebCamCapture.WebCamEventHandler(secondcam_ImageCaptured);
             //инициализация камер
-            if (!Defaultcapture.IsOpened)
-            {
-                RulerStandartCamera_RB.Visibility = Visibility.Collapsed;
-                RecognitionFirstCamera_RB.Visibility = Visibility.Collapsed;
-            }
-            if (!Firstcapture.IsOpened)
-            {
-                RulerFirstCamera_RB.Visibility = Visibility.Collapsed;
-                RecognitionFirstCamera_RB.Visibility = Visibility.Collapsed;
-            }
-            if (!Secondcapture.IsOpened)
-            {
-                RulerSecondCamera_RB.Visibility = Visibility.Collapsed;
-                RecognitionSecondCamera_RB.Visibility = Visibility.Collapsed;
-            }
             VideoTimer.Tick += new EventHandler(VTimer_Tick);
             VideoTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             VideoTimer.Start();
 
         }
-
+        void firstcam_ImageCaptured(object source, WebcamEventArgs e)//M
+        {
+            mainView.RulerImage = (System.Drawing.Bitmap)e.WebCamImage;
+        }
+        void secondcam_ImageCaptured(object source, WebcamEventArgs e)//M
+        {
+            mainView.RecognitionImage = (System.Drawing.Bitmap)e.WebCamImage;
+        }
         public void ContinueCamera(object sender, EventArgs e)
         {
             VideoTimer.Start();
@@ -140,21 +127,19 @@ namespace WpfApp3_joystick
         {
             try
             {
-                Mat Rulerimage = mainView.RulerCamera.QueryFrame();
-                if (Rulerimage != null)
+                Mat Rulerimage = new Mat();
+                Mat Recognitionimage = new Mat();             
+                Recognitionimage = GetMatFromSDImage(mainView.RecognitionImage);
+                Rulerimage = GetMatFromSDImage(mainView.RulerImage);
+                
+                if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(Rulerimage.ToImage<Bgr, Byte>());
+                else
                 {
-                    Mat Recognitionimage;
-                    if (mainView.RecognitionCamera != mainView.RulerCamera) Recognitionimage = mainView.RecognitionCamera.QueryFrame();
-                    else Recognitionimage = Rulerimage;
-                    if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(Rulerimage.ToImage<Bgr, Byte>());
-                    else
-                    {
-                        Image1.Source = Recognition.FindFigures(Recognitionimage);
-                        figuresView.Circles = Recognition.Circles;
-                        figuresView.Lines = Recognition.Lines;
-                        figuresView.Triangles = Recognition.Triangles;
-                        figuresView.Squares = Recognition.Squares;
-                    }
+                    Image1.Source = Recognition.FindFigures(Recognitionimage);
+                    figuresView.Circles = Recognition.Circles;
+                    figuresView.Lines = Recognition.Lines;
+                    figuresView.Triangles = Recognition.Triangles;
+                    figuresView.Squares = Recognition.Squares;
                 }
             }
             catch (Exception ex)
@@ -181,40 +166,43 @@ namespace WpfApp3_joystick
             double M = V * Density;
             OutputData_Label.Content = "V= " + V + '\n' + "M= " + M;
         }
+        private Mat GetMatFromSDImage(System.Drawing.Image image)
+        {
+            int stride = 0;
+            Bitmap bmp = new Bitmap(image);
 
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bmp.PixelFormat);
+
+            System.Drawing.Imaging.PixelFormat pf = bmp.PixelFormat;
+            if (pf == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            {
+                stride = bmp.Width * 4;
+            }
+            else
+            {
+                stride = bmp.Width * 3;
+            }
+
+            Image<Bgra, byte> cvImage = new Image<Bgra, byte>(bmp.Width, bmp.Height, stride, (IntPtr)bmpData.Scan0);
+
+            bmp.UnlockBits(bmpData);
+
+            return cvImage.Mat;
+        }
         private void Calculation_Tab_GotFocus(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void RecognitionStandartCamera_RB_Checked(object sender, RoutedEventArgs e)
+        private void RecognitionCameraSelect_Button_Click(object sender, RoutedEventArgs e)
         {
-            mainView.RecognitionCamera = Defaultcapture;
+            RecognitionCam.Start(1);
         }
 
-        private void RecognitionFirstCamera_RB_Checked(object sender, RoutedEventArgs e)
+        private void RulerCameraSelect_Button_Click(object sender, RoutedEventArgs e)
         {
-            mainView.RecognitionCamera = Firstcapture;
-        }
-
-        private void RecognitionSecondCamera_RB_Checked(object sender, RoutedEventArgs e)
-        {
-            mainView.RecognitionCamera = Secondcapture;
-        }
-
-        private void RulerStandartCamera_RB_Checked(object sender, RoutedEventArgs e)
-        {
-            mainView.RulerCamera = Defaultcapture;
-        }
-
-        private void RulerFirstCamera_RB_Checked(object sender, RoutedEventArgs e)
-        {
-            mainView.RulerCamera = Firstcapture;
-        }
-
-        private void RulerSecondCamera_RB_Checked(object sender, RoutedEventArgs e)
-        {
-            mainView.RulerCamera = Secondcapture;
+            RulerCam.Start(0);
         }
     }
 }
