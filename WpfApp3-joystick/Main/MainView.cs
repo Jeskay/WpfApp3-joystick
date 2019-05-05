@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using System.Drawing;
 
 namespace WpfApp3_joystick
 {
@@ -12,15 +13,15 @@ namespace WpfApp3_joystick
     {
         MainModel mainModel;
 
-        public VideoCapture RulerCamera
+        public Image RecognitionImage
         {
-            get { return mainModel.RulerCamera; }
-            set { mainModel.RulerCamera = value; }
+            get { return mainModel.FirstImage; }
+            set { mainModel.FirstImage = value; }
         }
-        public VideoCapture RecognitionCamera
+        public Image RulerImage
         {
-            get { return mainModel.RecognitionCamera; }
-            set { mainModel.RecognitionCamera = value; }
+            get { return mainModel.SecondImage; }
+            set { mainModel.SecondImage = value; }
         }
 
         public MainView(MainModel mainModel)

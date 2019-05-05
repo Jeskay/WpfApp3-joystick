@@ -33,10 +33,11 @@
                     </Grid>
                 </GroupBox>
                 <ComboBox x:Name="RulerCamera_ComboBox" HorizontalAlignment="Left" Height="46" Margin="0,-1,0,675" VerticalAlignment="Bottom" Width="252">
-                    <RadioButton x:Name="RulerStandartCamera_RB" Content="Default Camera" Height="50" Width="245" GroupName="RulerCameraSelection" Checked="RulerStandartCamera_RB_Checked" IsChecked="True"/>
-                    <RadioButton x:Name="RulerFirstCamera_RB" Content="Camera 1" Height="50" Width="245" GroupName="RulerCameraSelection" Checked="RulerFirstCamera_RB_Checked"/>
-                    <RadioButton x:Name="RulerSecondCamera_RB" Content="Camera 2" Height="50" Width="245" GroupName="RulerCameraSelection" Checked="RulerSecondCamera_RB_Checked"/>
+                    <RadioButton x:Name="RulerStandartCamera_RB" Content="Default Camera" Height="50" Width="245" GroupName="RulerCameraSelection" IsChecked="True"/>
+                    <RadioButton x:Name="RulerFirstCamera_RB" Content="Camera 1" Height="50" Width="245" GroupName="RulerCameraSelection"/>
+                    <RadioButton x:Name="RulerSecondCamera_RB" Content="Camera 2" Height="50" Width="245" GroupName="RulerCameraSelection"/>
                 </ComboBox>
+                <Button x:Name="RulerCameraSelect_Button" Content="Button" HorizontalAlignment="Left" Height="46" Margin="257,-1,0,0" VerticalAlignment="Top" Width="196" Click="RulerCameraSelect_Button_Click"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="Recognition_Tab" Header="Recognition" GotFocus="Recognition_Tab_GotFocus">
@@ -60,10 +61,11 @@
                     <Image x:Name="Image1" HorizontalAlignment="Left" MaxWidth="847" VerticalAlignment="Top"/>
                 </Grid>
                 <ComboBox x:Name="RecognitionCamera_ComboBox" HorizontalAlignment="Left" Height="46" Margin="0,-1,0,675" VerticalAlignment="Bottom" Width="252">
-                    <RadioButton x:Name="RecognitionStandartCamera_RB" Content="Default Camera" Height="50" Width="245" GroupName="RecognitionCameraSelection" Checked="RecognitionStandartCamera_RB_Checked" IsChecked="True"/>
-                    <RadioButton x:Name="RecognitionFirstCamera_RB" Content="Camera 1" Height="50" Width="245" GroupName="RecognitionCameraSelection" Checked="RecognitionFirstCamera_RB_Checked"/>
-                    <RadioButton x:Name="RecognitionSecondCamera_RB" Content="Camera 2" Height="50" Width="245" GroupName="RecognitionCameraSelection" Checked="RecognitionSecondCamera_RB_Checked"/>
+                    <RadioButton x:Name="RecognitionStandartCamera_RB" Content="Default Camera" Height="50" Width="245" GroupName="RecognitionCameraSelection" IsChecked="True"/>
+                    <RadioButton x:Name="RecognitionFirstCamera_RB" Content="Camera 1" Height="50" Width="245" GroupName="RecognitionCameraSelection"/>
+                    <RadioButton x:Name="RecognitionSecondCamera_RB" Content="Camera 2" Height="50" Width="245" GroupName="RecognitionCameraSelection"/>
                 </ComboBox>
+                <Button x:Name="recognitionCameraSelect_Button" Content="Button" HorizontalAlignment="Left" Height="46" Margin="257,-1,0,0" VerticalAlignment="Top" Width="179" Click="RecognitionCameraSelect_Button_Click"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="Calculation_Tab" Header="Calculation" GotFocus="Calculation_Tab_GotFocus">
