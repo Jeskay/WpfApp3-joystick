@@ -54,10 +54,10 @@ namespace WpfApp3_joystick
             //установка цветов некоторым элементам
             ME_test.Visibility = Visibility.Collapsed;
             RulerCam.FrameNumber = ((ulong)(0ul));
-            RulerCam.TimeToCapture_milliseconds = 30;
+            RulerCam.TimeToCapture_milliseconds = 10;
             RulerCam.ImageCaptured += new WebCamCapture.WebCamEventHandler(firstcam_ImageCaptured);
             RecognitionCam.FrameNumber = ((ulong)(0ul));
-            RecognitionCam.TimeToCapture_milliseconds = 30;
+            RecognitionCam.TimeToCapture_milliseconds = 10;
             RecognitionCam.ImageCaptured += new WebCamCapture.WebCamEventHandler(secondcam_ImageCaptured);
             //инициализация камер
             VideoTimer.Tick += new EventHandler(VTimer_Tick);
@@ -67,11 +67,11 @@ namespace WpfApp3_joystick
         }
         void firstcam_ImageCaptured(object source, WebcamEventArgs e)//M
         {
-            mainView.RulerImage = (System.Drawing.Bitmap)e.WebCamImage;
+            if(FirstWindowaCtivated)mainView.RulerImage = (System.Drawing.Bitmap)e.WebCamImage;
         }
         void secondcam_ImageCaptured(object source, WebcamEventArgs e)//M
         {
-            mainView.RecognitionImage = (System.Drawing.Bitmap)e.WebCamImage;
+            if(!FirstWindowaCtivated)mainView.RecognitionImage = (System.Drawing.Bitmap)e.WebCamImage;
         }
         public void ContinueCamera(object sender, EventArgs e)
         {
