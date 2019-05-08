@@ -12,7 +12,11 @@ DEBUG;TRACE
 C:\Users\ASUS\source\repos\WpfApp3-joystick\WpfApp3-joystick\App.xaml
 22022938553
 11577045306
+<<<<<<< HEAD
 19937457405
+=======
+141582737761
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
 25-390105658
 MainWindow.xaml;SelectedImage.xaml;
 

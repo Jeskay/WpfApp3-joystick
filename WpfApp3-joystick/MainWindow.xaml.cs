@@ -36,23 +36,38 @@ namespace WpfApp3_joystick
     {
 
         //изображение
+<<<<<<< HEAD
         private WebCamCapture RulerCam = new WebCamCapture();
         private WebCamCapture RecognitionCam = new WebCamCapture();
         DispatcherTimer VideoTimer = new DispatcherTimer();
         private Recognition Recognition = new Recognition();
         private FiguresView figuresView = new FiguresView(new FiguresModel());
         private MainView mainView = new MainView(new MainModel());
+=======
+        private VideoCapture _capture = new VideoCapture();
+        DispatcherTimer VideoTimer = new DispatcherTimer();
+        private Recognition Recognition = new Recognition();
+        private FiguresView figuresView = new FiguresView(new FiguresModel());
+
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
         private bool FirstWindowaCtivated = true;
 
         public MainWindow()
         {
             InitializeComponent();
+<<<<<<< HEAD
+=======
+            _capture.FlipHorizontal = true;
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
             GoupBox_Grid.DataContext = figuresView;
         }
         private void MainWin_Loaded(object sender, RoutedEventArgs e)
         {
+            BitmapImage myBitmapImage = new BitmapImage();//создание битмапа для хранения изображения
             //установка цветов некоторым элементам
+            Form1.Background = System.Windows.Media.Brushes.LightSteelBlue;
             ME_test.Visibility = Visibility.Collapsed;
+<<<<<<< HEAD
             RulerCam.FrameNumber = ((ulong)(0ul));
             RulerCam.TimeToCapture_milliseconds = 10;
             RulerCam.ImageCaptured += new WebCamCapture.WebCamEventHandler(firstcam_ImageCaptured);
@@ -60,6 +75,11 @@ namespace WpfApp3_joystick
             RecognitionCam.TimeToCapture_milliseconds = 10;
             RecognitionCam.ImageCaptured += new WebCamCapture.WebCamEventHandler(secondcam_ImageCaptured);
             //инициализация камер
+=======
+
+            //инициализация камеры и очистка текстбоксов
+            
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
             VideoTimer.Tick += new EventHandler(VTimer_Tick);
             VideoTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             VideoTimer.Start();
@@ -125,6 +145,7 @@ namespace WpfApp3_joystick
 
         private void VTimer_Tick(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             try
             {
                 Mat Rulerimage = new Mat();
@@ -141,6 +162,17 @@ namespace WpfApp3_joystick
                     figuresView.Triangles = Recognition.Triangles;
                     figuresView.Squares = Recognition.Squares;
                 }
+=======
+            Mat image = _capture.QueryFrame();
+            if (FirstWindowaCtivated) ImageWebcam1.Source = BitmapSourceConvert.ToBitmapSource(image.ToImage<Bgr, Byte>());
+            else
+            {
+                Image1.Source = Recognition.FindFigures(image);
+                figuresView.Circles = Recognition.Circles;
+                figuresView.Lines = Recognition.Lines;
+                figuresView.Triangles = Recognition.Triangles;
+                figuresView.Squares = Recognition.Squares;
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
             }
             catch (Exception ex)
             { }
@@ -171,6 +203,7 @@ namespace WpfApp3_joystick
             int stride = 0;
             Bitmap bmp = new Bitmap(image);
 
+<<<<<<< HEAD
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bmp.PixelFormat);
 
@@ -203,6 +236,8 @@ namespace WpfApp3_joystick
         private void RulerCameraSelect_Button_Click(object sender, RoutedEventArgs e)
         {
             RulerCam.Start(0);
+=======
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
         }
     }
 }

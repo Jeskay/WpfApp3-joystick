@@ -109,15 +109,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Calculation\CalculationModel.cs" />
-    <Compile Include="Calculation\CalculationView.cs" />
     <Compile Include="Converter.cs" />
+<<<<<<< HEAD
     <Compile Include="Main\Helper.cs" />
     <Compile Include="Main\MainModel.cs" />
     <Compile Include="Main\MainView.cs" />
     <Compile Include="Recognition\FiguresModel.cs" />
     <Compile Include="Recognition\FiguresView.cs" />
     <Compile Include="Recognition\FindFigures.cs" />
+=======
+    <Compile Include="FiguresModel.cs" />
+    <Compile Include="FiguresView.cs" />
+    <Compile Include="FindFigures.cs" />
+>>>>>>> parent of 2c375ab... Merge branch 'NewVersion' of https://github.com/Jeskay/WpfApp3-joystick into NewVersion
     <Compile Include="SelectedImage.xaml.cs">
       <DependentUpon>SelectedImage.xaml</DependentUpon>
     </Compile>
